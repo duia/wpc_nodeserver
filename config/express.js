@@ -8,6 +8,7 @@ const express = require('express');
 const session = require('express-session');
 const compression = require('compression');
 const cookieParser = require('cookie-parser');
+// const cookieSession = require('cookie-session');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const csrf = require('csurf');
@@ -16,9 +17,7 @@ const upload = require('multer')();
 const mongodb = require('../mongodb');
 
 const MongoStore = require('connect-mongo')(session);
-// const flash = require('connect-flash');
-//express的消息提示中间件,用于传递登录失败的一些信息
-const flash = require('express-flash');
+const flash = require('connect-flash');
 const morgan = require('morgan');
 const winston = require('winston');
 const helpers = require('view-helpers');
@@ -88,12 +87,15 @@ module.exports = function (app, passport) {
 
     // CookieParser should be above session
     app.use(cookieParser());
-    // app.use(cookieSession({ secret: 'wpc' }));
+    // app.use(cookieSession({ secret: pkg.name }));
     // session设置
     app.use(session({
         secret: pkg.name,
         resave: false, // 即使 session 没有被修改，也保存 session 值，默认为 true
         saveUninitialized: true,// 是否自动保存未初始化的会话
+        cookie: {
+            maxAge: 1000*60*60
+        },
         store: new MongoStore({
             mongooseConnection: mongodb.mongoose.connection, //使用已有的数据库连接
             collection : 'sessions'
@@ -122,11 +124,4 @@ module.exports = function (app, passport) {
         app.locals.pretty = true;
     }
 
-    app.use(function(err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
-    });
 };

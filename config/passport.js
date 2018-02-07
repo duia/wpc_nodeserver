@@ -16,7 +16,7 @@ module.exports = function (passport) {
     passport.use('local', local);
 
     // serialize sessions
-    passport.serializeUser(function(user, done) { done(null, user) });
-    passport.deserializeUser(function(user, done) { /*User.load({ criteria: { _id: id } }, */done(null, user)/*)*/ });
+    passport.serializeUser(function(user, done) { done(null, user.id) });
+    passport.deserializeUser(function(id, done) { User.load({ criteria: { _id: id } }, done) });
 
 };
