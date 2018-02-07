@@ -1,0 +1,30 @@
+<% include include/head.ejs %>
+<div class="container-fluid">
+    <% include include/messages.ejs %>
+    <form class="form-horizontal" method="post">
+        <input type="hidden" name="_csrf" value="<%= csrf_token %>"/>
+        <fieldset>
+            <legend>用户登录</legend>
+            <div class="control-group">
+                <label class="control-label" for="username">用户名</label>
+
+                <div class="controls">
+                    <input type="text" class="input-xlarge" id="username" name="username">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="password">密码</label>
+
+                <div class="controls">
+                    <input type="password" class="input-xlarge" id="password" name="password">
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">登录</button>
+            </div>
+            <p><a href="/register">注册</a></p>
+        </fieldset>
+    </form>
+</div>
+
+<% include include/foot.ejs %>

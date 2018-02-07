@@ -1,0 +1,10 @@
+<% include include/head.ejs %>
+<% include include/header.ejs %>
+<h1><%= title %></h1>
+<p>Welcome to <%= title %></p>
+
+<p><a href="/login">登录</a></p>
+<p><a href="/register">注册</a></p>
+<p>您好，<%= username %>！！！<a href="/logout">退出</a></p>
+<%- include include/footer.ejs %>
+<%- include include/foot.ejs %>
